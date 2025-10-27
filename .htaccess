@@ -1,0 +1,24 @@
+<IfModule mod_rewrite.c>
+#activar el rewrite
+RewriteEngine on
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTPS_HOST} (www\.)?washingtonnieto.com
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301] 
+
+##ErrorDocument 404 https://elpalaciodemisangelitos.com/Tienda/error/index
+##ErrorDocument 404 https://washingtonnieto.com/Tienda/error/index
+ErrorDocument 404 http://localhost/Tienda/error/
+
+#condiciones especiales... que nunca muestre en la url
+#ficheros ni directorios
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteCond %{SCRIPT_FILENAME} !-f
+
+SetEnv ENVIRONMENT produccion
+
+#reescribme todo a este formato... 
+#del formato de la url... lo debe escribir asi..
+#
+RewriteRule ^(.*)/(.*) index.php?controller=$1&action=$2
+
+</IfModule>
